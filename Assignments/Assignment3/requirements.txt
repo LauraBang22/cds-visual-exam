@@ -1,0 +1,5 @@
+matplotlib==3.8.4
+numpy==1.23.0
+opencv_python==4.9.0.80
+scikit_learn==1.4.2
+tensorflow==2.16.1
