@@ -10,7 +10,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.neural_network import MLPClassifier
-from sklearn import metrics
 
 import matplotlib.pyplot as plt
 
@@ -19,12 +18,17 @@ from tensorflow.keras.datasets import cifar10
 
 
 def load_data():
+    '''
+    This function loads the cifar-10 dataset, which we'll be using in this code
+    '''
     (X_train, y_train), (X_test, y_test) = cifar10.load_data()
     return X_train, X_test, y_train, y_test
 
 def reshape_data(X_train, X_test):
     '''
-    reshaping the data, for the classifier to be able to run on it
+    This function reshapes the data, for the logistic regression 
+    classifier to be able to run on it.
+    It reurns the reshaped data.
     '''
     X_list_train = []
 
@@ -47,7 +51,9 @@ def reshape_data(X_train, X_test):
 
 def classifier(X_test_final, X_train_final, y_test, y_train):
     '''
-    training the classifier on the data and creeating a classification report
+    This function creates a classifier and trains it on the data 
+    and evaluates it's performance. 
+    Then it creates a classification report.
     '''
     classifierMLP = MLPClassifier(activation = "relu",
                            hidden_layer_sizes = (125,),
@@ -60,6 +66,10 @@ def classifier(X_test_final, X_train_final, y_test, y_train):
     return classifier_metrics_neural, classifierMLP
 
 def loss_curve(classifierMLP):
+    '''
+    This function plots the loss curve for the classifier,
+    and saves it as a photo in the out folder
+    '''
     plt.plot(classifierMLP.loss_curve_)
     plt.title("Loss curve during training", fontsize=14)
     plt.xlabel('Iterations')
@@ -68,6 +78,9 @@ def loss_curve(classifierMLP):
     plt.show()
     
 def file_save(classifier_metrics_neural):
+    '''
+    This function saves the classification report as a .txt file in the out folder.
+    '''
     text_file = open("out/neural_network.txt", 'w')
     text_file.write(classifier_metrics_neural)
     text_file.close()

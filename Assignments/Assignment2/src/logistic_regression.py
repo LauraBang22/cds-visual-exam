@@ -7,9 +7,6 @@ import numpy as np
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegressio
-from sklearn import metrics
 
 import matplotlib.pyplot as plt
 
@@ -17,11 +14,16 @@ from tensorflow.keras.datasets import cifar10
 
 
 def load_data():
+    '''
+    This function loads the cifar-10 dataset, which we'll be using in this code
+    '''
     return cifar10.load_data()
 
 def reshape_data(X_train, X_test):
     '''
-    reshaping the data, for the classifier to be able to run on it
+    This function reshapes the data, for the logistic regression 
+    classifier to be able to run on it.
+    It reurns the reshaped data.
     '''
     X_list_train = []
 
@@ -44,7 +46,9 @@ def reshape_data(X_train, X_test):
 
 def classifier(X_test_final, X_train_final, y_test, y_train):
     '''
-    training the classifier on the data and creeating a classification report
+    This function creates a classifier and trains it on the data 
+    and evaluates it's performance. 
+    Then it creates a classification report.
     '''
     classifierLogistic = LogisticRegression(tol=0.1, 
                          solver='saga',
@@ -55,6 +59,9 @@ def classifier(X_test_final, X_train_final, y_test, y_train):
     return classifier_metrics_logistic
 
 def file_save(classifier_metrics_logistic):
+    '''
+    This function saves the classification report as a .txt file in the out folder.
+    '''
     text_file = open("out/logisticregression.txt", 'w')
     text_file.write(classifier_metrics_logistic)
     text_file.close()

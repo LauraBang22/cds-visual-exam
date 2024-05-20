@@ -10,7 +10,7 @@ In this assignment I have solved the following tasks for the given data:
 - Save a plot of the loss curve during training
 
 ### Repository Structure
-In this repository you'll find three subfolders.
+In this repository you'll find two subfolders.
 - In ```out``` you'll find the results the code have produced.
 - In ```src``` you'll find the scripts of code written to solve the tasks given in the assignment.
 
@@ -18,7 +18,7 @@ I have also created a requirements.txt and a setup.sh file for you to run, for t
 
 ### Data
 The data used in this assignment, is a dataset called **Cifar10**.
-The data can be found [here](https://www.cs.toronto.edu/~kriz/cifar.html). The data is loaded in the script.
+The data can be found [here](https://www.cs.toronto.edu/~kriz/cifar.html). The data is loaded in the script, so there is no need to download it seperately.
 
 ### Reproducebility 
 I have created a ```setup.sh``` file that can be run from the terminal using the code: 
@@ -38,7 +38,7 @@ Each file opens the virtual environment again, then runs one of the scripts that
 For both scripts I have created a classification report, and for the neural network classifier I have also plotted a loss curve.
 
 #### Logistic regression
-When training the logistic regression classifier, I get an accuracy of 32%. That is not particularly good. I could maybe get  better, if I tried training it with some different parameters in the classifier.
+When training the logistic regression classifier, I get an accuracy of 32%. That is not particularly good. I could maybe get better, if I tried training it with some different parameters in the classifier.
 
 #### Neural network
 For this classifier I have run a gridsearch to try and find the parameters that would generate the best results in the classification report. The parameters I have tested are these:
@@ -65,6 +65,8 @@ classifierMLP = MLPClassifier(activation = "relu",
                            random_state = 42,
                            verbose=True).fit(X_train_final, y_train)
 ```
-It gave an accuracy of 40%, which still is not great, but at least it  is better than 31%.
+It gave an accuracy of 40%, which still is not great, but at least it is better than 31%.
+
+The training loss curve for the neural network looks pretty good, but it is hard to tell exactly how good the model actually is without also creating a validation loss curve. If we had both it would be easier to tell if the model either overfits or underfits, which would give a more accurate idea of how well the model actually works.
 
 

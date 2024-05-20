@@ -4,8 +4,8 @@
 python -m venv env
 # activate env
 source ./env/bin/activate
-# install requirements
 
+# install requirements
 sudo apt-get update
 sudo apt-get install -y python3-opencv
 
