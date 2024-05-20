@@ -3,12 +3,20 @@ import os
 import matplotlib.pyplot as plt
 
 def load_data():
+    '''
+    This function loads the CSV file, created by the data.py script and returns it.
+    '''
     filename = os.path.join("out", "data1.csv")
     data = pd.read_csv(filename)
     data = data.drop('Unnamed: 0', axis=1)
     return data
 
 def data_analysis(data):
+    '''
+    This function analyzes the data, and creates both a csv file and a plot for every newspaper
+    showing the percent of pages containg faces.
+    I saves the result in the out folder.
+    '''
     newspaper_list = ['GDL', 'IMP', 'JDG']
 
     for newspaper in newspaper_list:
