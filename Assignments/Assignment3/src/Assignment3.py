@@ -32,8 +32,8 @@ labelNames = ["ADVE", "Email",
 
 def load_data():
     '''
-    This function loads images from a directory structure and assigns labels based on folder names.
-    It returns two lists, one with the processed images and one with the labels.
+    Tthis function loads the data, and assigns each image a label corresponding to the folder it was in.
+    It reurns two lists, one with the images and one with the labels.
     '''
     main_folder_path = ("in/Tobacco3482-jpg") 
     sorted_dir = sorted(os.listdir(main_folder_path))
@@ -41,14 +41,11 @@ def load_data():
     images = []
     labels = []
     for folder in sorted_dir:
-        label = folder.split("-")[-1] # extracts label from folder name
+        label = folder.split("-")[-1] # extract label from folder name
         folder_path = os.path.join(main_folder_path, folder)
         filenames = sorted(os.listdir(folder_path))
         
         for image in filenames:
-            '''
-            This part iterates through each photo in each folder and reshapes and preprocesses it
-            '''
             if image.endswith(".jpg"):
                 image_path = os.path.join(folder_path, image)
                 labels.append(label)
@@ -60,8 +57,9 @@ def load_data():
 
 def reshape_data(images, labels):
     '''
-    Reshaping and normalizing the data, so it fits with the model.
-    It also spilts the data into a test and a training set, which is what it returns.
+    This function creates a test/train split, 
+    Then reshapes and normalizes the data, so it fits with the model.
+    It reurns the normalized test/train split.
     '''
     X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42)
 
@@ -77,7 +75,8 @@ def reshape_data(images, labels):
 
 def load_model():
     '''
-    This function loads the  VGG16 model and modifies it.
+    This function loads the model and modifies it, to fit with the task.
+    It returns the modified model.
     '''
     model = VGG16(include_top=False, 
               pooling='avg',
@@ -87,51 +86,49 @@ def load_model():
         layer.trainable = False
 
     '''
-    flattens the output and adds three different layers to the VGG16 model.
+    Then add different layers to the existing model
     '''
     flat1 = Flatten()(model.layers[-1].output)
     bn=BatchNormalization()(flat1)
     class1 = Dense(128, activation='relu')(bn)
     output = Dense(10, activation='softmax')(class1)
 
-    '''
-    Creates a new modified model, which the function then returns
-    '''
-    new_model = Model(inputs=model.inputs, 
+    model = Model(inputs=model.inputs, 
                 outputs=output)
     
-    return new_model
+    return model
 
 def learning_rate():
     '''
-    This function defines the learning rate of the neural network.
-    It returns the sgd
+    This function defines the learning rate
+    It creates a Stochastic Gradient Descent (SGD) optimizer for the learning rate.
+    It returns the SGD
     '''
     lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
         initial_learning_rate=0.01,
         decay_steps=10000,
         decay_rate=0.9)
-    sgd = SGD(learning_rate=lr_schedule) #Creates a Stochastic Gradient Descent (sgd) optimizer with the learning rate.
+    sgd = SGD(learning_rate=lr_schedule)
 
     return sgd
 
-def compile_model(sgd, new_model):
+def compile_model(sgd, model):
     '''
-    This function compiles the model with the optimizer and loss function.
+    This function compiles the modified model with the the SGD optimizer.
     It returns the compiled model.
     '''
-    comp_model = new_model.compile(optimizer=sgd,
+    model.compile(optimizer=sgd,
               loss='categorical_crossentropy',
               metrics=['accuracy'])
     
-    return comp_model
+    return model
 
-def train_model(comp_model, X_train, y_train):
+def train_model(model, X_train, y_train):
     '''
-    This function trains the model on the data.
-    It returns information about loss and accuracy.
+    This function trains the compiled model on the data.
+    It returns the results.
     '''
-    H = comp_model.fit(X_train, y_train, 
+    H = model.fit(X_train, y_train, 
                 validation_split=0.1,
                 batch_size=128,
                 epochs=25,
@@ -140,10 +137,9 @@ def train_model(comp_model, X_train, y_train):
 
 def plot_history(H):
     '''
-    This function plots the loss curve and accuracy curve over the trained model.
+    This function plots the loss curve and accuracy curve over the results.
     The plots also include validation loss and accuracy to give an indication
     of whether the model is overfitting or underfitting.
-    It saves the plots.
     '''
     plt.figure(figsize=(12,6))
     plt.subplot(1,2,1)
@@ -164,35 +160,35 @@ def plot_history(H):
     plt.tight_layout()
     plt.legend()
     plt.show()
-    plt.savefig("out/loss_curve.png")
+    plt.savefig("out/loss_curve_test.png")
 
-def predictions(comp_model, X_test, y_test, labelNames):
+def predictions(model, X_test, y_test, labelNames):
     '''
-    making the classification report based on predictions
+    This function creates a classification report.
     '''
-    predictions = comp_model.predict(X_test, batch_size=128)
+    predictions = model.predict(X_test, batch_size=128)
     classification = classification_report(y_test.argmax(axis=1),
                                 predictions.argmax(axis=1),
                                 target_names=labelNames)
     return classification
 
 def file_save(classification):
-    with open('out/classification_report.txt', 'w') as text_file:
+    with open('out/classification.txt', 'w') as text_file:
         text_file.write(classification)
 
 def main():
     images, labels = load_data()
     X_train, X_test, y_train, y_test = reshape_data(images, labels)
     
-    new_model = load_model()
+    model = load_model()
     sgd = learning_rate()
-    comp_model = compile_model(sgd, new_model)
+    model = compile_model(sgd, model)
     
-    H = train_model(comp_model, X_train, y_train)
+    H = train_model(model, X_train, y_train)
     
     plot_history(H)
     
-    classification = predictions(comp_model, X_test, y_test, labelNames)
+    classification = predictions(model, X_test, y_test, labelNames)
     file_save(classification)
 
 if __name__ == "__main__":

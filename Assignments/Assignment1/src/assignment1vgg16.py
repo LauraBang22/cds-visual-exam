@@ -56,15 +56,15 @@ def most_similar(model, image_embedding_main):
     #Then I create a for loop to treat each individual flower image in the data directory
     for file_name in sorted_dir:
         file_path = data_dir + "/" + file_name
-        #if os.path.splitext(file_path)[1].lower() == ".jpg":
-        resized_image = load_img(file_path, target_size=(224, 224))
-        image_array = np.expand_dims(img_to_array(resized_image), axis = 0)
-        image_embedding = model.predict(image_array)
-        similarity_score = cosine_similarity(image_embedding_main, image_embedding).reshape(1,)
-        results_list.append((file_name, similarity_score))
-        df = pd.DataFrame(results_list, columns=["file_name", "similarity_score"]) 
-        df_sorted = df.sort_values(by='similarity_score', ascending=False)
-        df_top = df_sorted.head(6)
+        if os.path.splitext(file_path)[1].lower() == ".jpg":
+            resized_image = load_img(file_path, target_size=(224, 224))
+            image_array = np.expand_dims(img_to_array(resized_image), axis = 0)
+            image_embedding = model.predict(image_array)
+            similarity_score = cosine_similarity(image_embedding_main, image_embedding).reshape(1,)
+            results_list.append((file_name, similarity_score))
+            df = pd.DataFrame(results_list, columns=["file_name", "similarity_score"]) 
+            df_sorted = df.sort_values(by='similarity_score', ascending=False)
+            df_top = df_sorted.head(6)
     return df_top, data_dir
 
 def save_results(df_top):

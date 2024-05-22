@@ -18,7 +18,7 @@ def run_model(mtcnn):
     detects faces in each page, and counts the number of faces found using the model.
     It returns a list where each result is a tuple containing newspaper, year and number of faces
     '''
-    main_folder_path = ("in/newspapers") #the folder that we will be working in
+    main_folder_path = ("in/images") #the folder that we will be working in
     sorted_dir = sorted(os.listdir(main_folder_path))
 
     results = []

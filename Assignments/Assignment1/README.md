@@ -1,9 +1,9 @@
 # Assignment 1 - Building a simple image search algorithm
 
-### Assignment Discription
+## Assignment Discription
 In this assignment I have solved the following tasks for the given data:
 
-Define a particular image that you want to work with
+Define a particular image that you want to work with:
 - For that image
   - Extract the colour histogram using ```OpenCV```
 - Extract colour histograms for all of the **other* images in the data
@@ -20,22 +20,19 @@ Define a particular image that you want to work with
 
 I have also tried to use the model VGG16 to see if that would give me a better result, which you can find more information about [here](https://www.geeksforgeeks.org/vgg-16-cnn-model/).
 
-### Repository Structure
-In this repository you'll find two subfolders.
+## Repository Structure
+In this repository you'll find three subfolders.
+- In ```in``` you'll upload the data, that the code will run on.
 - In ```out``` you'll find the results the code have produced.
 - In ```src``` you'll find the scripts of code written to solve the tasks given in the assignment.
 
-You'll need to create a folder called ```in```, to upload the data to, for the code to work.
+I have also created a ```requirements.txt``` and a ```setup.sh``` file for you to run, for the setting up a virtual environment to run the code in. And I  have created ```run.sh``` scripts to run the code from.
 
-I have also created a requirements.txt and a setup.sh file for you to run, for the setting up a virtual environment to run the code in. And I  have created .sh scripts to run the code from.
-
-### Data
+## Data
 The data used in this assignment, is a dataset called **17 Category Flower Dataset**.
 The data can be found [here](https://www.robots.ox.ac.uk/~vgg/data/flowers/17/). You'll need to download the folder called **17flowers.zip**  and unpack it. Once you have unpacked it, then you need to move it to the ```in``` folder you have created in this repository. 
 
-For an extra part of the assignment I have tried using the model VGG16 instead. More info about the model can be found [here](https://www.geeksforgeeks.org/vgg-16-cnn-model/).
-
-### Reproducebility 
+## Reproducebility 
 Once you have downloaded the data and put it in the correct folder, you are now ready to run the code.
 
 I have created a ```setup.sh``` file that can be run from the terminal using the code: 
@@ -51,7 +48,7 @@ bash run_vgg16.sh
 ```
 Each file opens the virtual environment again, then runs one of the scripts that I have written for this assignment, and finishes off by deactivating the virtual environment. 
 
-### Results
+## Results
 For both scripts I have created a dataframe with the top 6 most similar photos to the reference photo, where the one it finds the most similar is the actual reference photo, which it has also compared itself to. I have also created a plot that shows the reference photo, and the two most similar photos to it. 
 
 #### ```cv2.compareHist()```

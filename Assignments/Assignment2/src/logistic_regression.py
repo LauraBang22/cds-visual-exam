@@ -62,7 +62,7 @@ def file_save(classifier_metrics_logistic):
     '''
     This function saves the classification report as a .txt file in the out folder.
     '''
-    text_file = open("out/logisticregression.txt", 'w')
+    text_file = open("out/logistic_regression.txt", 'w')
     text_file.write(classifier_metrics_logistic)
     text_file.close()
 

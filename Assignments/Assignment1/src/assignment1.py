@@ -46,20 +46,20 @@ def most_similar(main_norm_hist):
     #a for loop to treat each individual flower image in the data directory
     for file_name in sorted_dir:
         file_path = data_dir + "/" + file_name
-        #if os.path.splitext(file_path)[1].lower() == ".jpg":
-        ref_image = cv2.imread(file_path)
-        
-        ref_hist = cv2.calcHist([ref_image], [0,1,2], None, [256,256,256], [0,256, 0,256, 0,256])
-        ref_norm_hist = cv2.normalize(ref_hist, ref_hist, 0, 1.0, cv2.NORM_MINMAX)
-        
-        distance = round(cv2.compareHist(main_norm_hist, ref_norm_hist, cv2.HISTCMP_CHISQR), 2)
-        
-        results_list.append((file_name, distance))
-        
-        df = pd.DataFrame(results_list, 
-                            columns=["file_name","Distance"],)
-        df_sorted = df.sort_values(by='Distance', ascending=True)
-        df_top = df_sorted.head(6)
+        if os.path.splitext(file_path)[1].lower() == ".jpg":
+            ref_image = cv2.imread(file_path)
+            
+            ref_hist = cv2.calcHist([ref_image], [0,1,2], None, [256,256,256], [0,256, 0,256, 0,256])
+            ref_norm_hist = cv2.normalize(ref_hist, ref_hist, 0, 1.0, cv2.NORM_MINMAX)
+            
+            distance = round(cv2.compareHist(main_norm_hist, ref_norm_hist, cv2.HISTCMP_CHISQR), 2)
+            
+            results_list.append((file_name, distance))
+            
+            df = pd.DataFrame(results_list, 
+                                columns=["file_name","Distance"],)
+            df_sorted = df.sort_values(by='Distance', ascending=True)
+            df_top = df_sorted.head(6)
     return df_top, data_dir
 
 def save_results(df_top):
