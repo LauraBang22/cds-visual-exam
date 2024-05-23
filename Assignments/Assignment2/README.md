@@ -21,6 +21,8 @@ The data used in this assignment, is a dataset called **Cifar10**.
 The data can be found [here](https://www.cs.toronto.edu/~kriz/cifar.html). The data is loaded in the script, so there is no need to download it seperately.
 
 ## Reproducebility 
+For this code to work, you need to be placed in the **Assignment2** folder in your terminal.
+
 I have created a ```setup.sh``` file that can be run from the terminal using the code: 
 ```
 bash setup.sh
@@ -65,7 +67,7 @@ classifierMLP = MLPClassifier(activation = "relu",
                            random_state = 42,
                            verbose=True).fit(X_train_final, y_train)
 ```
-It gave an accuracy of 40%, which still is not great, but at least it is better than 31%.
+It gave an accuracy of 42%, which still is not great, but at least it is better than 31%.
 
 The training loss curve for the neural network looks pretty good, but it is hard to tell exactly how good the model actually is without also creating a validation loss curve. If we had both it would be easier to tell if the model either overfits or underfits, which would give a more accurate idea of how well the model actually works.
 

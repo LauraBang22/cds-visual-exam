@@ -33,6 +33,8 @@ The data used in this assignment, is a dataset called **17 Category Flower Datas
 The data can be found [here](https://www.robots.ox.ac.uk/~vgg/data/flowers/17/). You'll need to download the folder called **17flowers.zip**  and unpack it. Once you have unpacked it, then you need to move it to the ```in``` folder you have created in this repository. 
 
 ## Reproducebility 
+For this code to work, you need to be placed in the **Assignment1** folder in your terminal.
+
 Once you have downloaded the data and put it in the correct folder, you are now ready to run the code.
 
 I have created a ```setup.sh``` file that can be run from the terminal using the code: 
@@ -49,7 +51,7 @@ bash run_vgg16.sh
 Each file opens the virtual environment again, then runs one of the scripts that I have written for this assignment, and finishes off by deactivating the virtual environment. 
 
 ## Results
-For both scripts I have created a dataframe with the top 6 most similar photos to the reference photo, where the one it finds the most similar is the actual reference photo, which it has also compared itself to. I have also created a plot that shows the reference photo, and the two most similar photos to it. 
+For both scripts I have created a dataframe with the top 6 most similar photos to the reference photo I have choose, where the one it finds the most similar is the actual reference photo, which it has also compared itself to. I have also created a plot that shows the reference photo, and the two most similar photos to it. 
 
 #### ```cv2.compareHist()```
 For the first way of doing it, the results aren't exactly impressive. My reference photo is a white flower, and according to the the histograms, the most similar photo is one containing a purple flower, and the second most similar is a yellow flower. So there is definitely room for improvement. 

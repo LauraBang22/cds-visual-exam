@@ -1,5 +1,5 @@
 import os
-import cv2
+#import cv2
 import tensorflow as tf
 
 from tensorflow.keras.preprocessing.image import (load_img,
@@ -61,7 +61,7 @@ def reshape_data(images, labels):
     Then reshapes and normalizes the data, so it fits with the model.
     It reurns the normalized test/train split.
     '''
-    X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.1, random_state=42)
 
     X_train = np.array(X_train) / 255.
     X_test = np.array(X_test) / 255.
@@ -79,7 +79,7 @@ def load_model():
     It returns the modified model.
     '''
     model = VGG16(include_top=False, 
-              pooling='avg',
+              pooling='max',
               input_shape=(224, 224, 3))
 
     for layer in model.layers:
@@ -105,7 +105,7 @@ def learning_rate():
     It returns the SGD
     '''
     lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
-        initial_learning_rate=0.01,
+        initial_learning_rate=0.001,
         decay_steps=10000,
         decay_rate=0.9)
     sgd = SGD(learning_rate=lr_schedule)
@@ -130,8 +130,8 @@ def train_model(model, X_train, y_train):
     '''
     H = model.fit(X_train, y_train, 
                 validation_split=0.1,
-                batch_size=128,
-                epochs=25,
+                batch_size=64,
+                epochs=35,
                 verbose=1)
     return H
 
@@ -143,8 +143,8 @@ def plot_history(H):
     '''
     plt.figure(figsize=(12,6))
     plt.subplot(1,2,1)
-    plt.plot(np.arange(0, 25), H.history["loss"], label="train_loss")
-    plt.plot(np.arange(0, 25), H.history["val_loss"], label="val_loss", linestyle=":")
+    plt.plot(np.arange(0, 35), H.history["loss"], label="train_loss")
+    plt.plot(np.arange(0, 35), H.history["val_loss"], label="val_loss", linestyle=":")
     plt.title("Loss curve")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
@@ -152,28 +152,28 @@ def plot_history(H):
     plt.legend()
 
     plt.subplot(1,2,2)
-    plt.plot(np.arange(0, 25), H.history["accuracy"], label="train_acc")
-    plt.plot(np.arange(0, 25), H.history["val_accuracy"], label="val_acc", linestyle=":")
+    plt.plot(np.arange(0, 35), H.history["accuracy"], label="train_acc")
+    plt.plot(np.arange(0, 35), H.history["val_accuracy"], label="val_acc", linestyle=":")
     plt.title("Accuracy curve")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
     plt.tight_layout()
     plt.legend()
     plt.show()
-    plt.savefig("out/loss_curve_test.png")
+    plt.savefig("out/loss_curve.png")
 
 def predictions(model, X_test, y_test, labelNames):
     '''
     This function creates a classification report.
     '''
-    predictions = model.predict(X_test, batch_size=128)
+    predictions = model.predict(X_test, batch_size=64)
     classification = classification_report(y_test.argmax(axis=1),
                                 predictions.argmax(axis=1),
                                 target_names=labelNames)
     return classification
 
 def file_save(classification):
-    with open('out/classification.txt', 'w') as text_file:
+    with open('out/classification_report.txt', 'w') as text_file:
         text_file.write(classification)
 
 def main():

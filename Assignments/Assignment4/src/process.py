@@ -6,7 +6,7 @@ def load_data():
     '''
     This function loads the CSV file, created by the data.py script and returns it.
     '''
-    filename = os.path.join("out", "data1.csv")
+    filename = os.path.join("out", "data_to_process.csv")
     data = pd.read_csv(filename)
     data = data.drop('Unnamed: 0', axis=1)
     return data

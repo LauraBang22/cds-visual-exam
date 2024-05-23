@@ -6,7 +6,6 @@ from PIL import Image
 import pandas as pd
 import os
 from tqdm import tqdm
-import cv2
 
 def load_model():
     mtcnn = MTCNN(keep_all=True)
